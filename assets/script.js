@@ -20,8 +20,28 @@ const slides = [
 // initial position of image/slide 
 let currentSlidePosition = 0;
 
+// carrousel function updates the displayed slide
+function carrousel(index) {
+    const sliderImage = document.querySelector('#banner .banner-img');
+    const sliderTagLine = document.querySelector('#banner p');
+    const sliderDots = document.querySelectorAll('.dots .dot');
+
+    sliderImage.src = `./assets/images/slideshow/` + slides[index].image;
+    sliderTagLine.innerHTML = slides[index].tagLine;
+
+// if i equals to index, it adds class dot_selected, else i removes the class dot_selected
+    for (let i = 0; i < sliderDots.length; i++) {
+        if (i === index) {
+            sliderDots[i].classList.add('dot_selected');
+        } else {
+            sliderDots[i].classList.remove('dot_selected');
+        }
+    }
+}
+
 function changeSlide(position) {
     currentSlidePosition = (currentSlidePosition + position + slides.length) % slides.length;
+    // change Slide calls carrousel and passes currentSlidePosition as argument to index parameter
     carrousel(currentSlidePosition);
 }
 
@@ -35,22 +55,7 @@ function nextSlide() {
     changeSlide(1);
 }
 
-function carrousel(positionOrder) {
-    const sliderImage = document.querySelector('#banner .banner-img');
-    const sliderTagLine = document.querySelector('#banner p');
-    const sliderDots = document.querySelectorAll('.dots .dot');
 
-    sliderImage.src = `./assets/images/slideshow/${slides[positionOrder].image}`;
-    sliderTagLine.innerHTML = slides[positionOrder].tagLine;
-
-    for (let i = 0; i < sliderDots.length; i++) {
-        if (i === positionOrder) {
-            sliderDots[i].classList.add('dot_selected');
-        } else {
-            sliderDots[i].classList.remove('dot_selected');
-        }
-    }
-}
 
 // looks for .arrow_left selector and goes to previous slide when clicked
 document.querySelector('.arrow_left').addEventListener('click', previousSlide);
@@ -58,9 +63,9 @@ document.querySelector('.arrow_left').addEventListener('click', previousSlide);
 // looks for .arrow_right selector and goes to next slide when clicked
 document.querySelector('.arrow_right').addEventListener('click', nextSlide);
 
-const dots = document.querySelectorAll('.dots .dot');
-for (let i = 0; i < dots.length; i++) {
-    dots[i].addEventListener('click', function() {
+const sliderDots = document.querySelectorAll('.dots .dot');
+for (let i = 0; i < sliderDots.length; i++) {
+    sliderDots[i].addEventListener('click', function() {
         carrousel(i);
     });
 }
