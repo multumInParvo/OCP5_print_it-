@@ -41,7 +41,7 @@ function carrousel(index) {
 
 function changeSlide(position) {
     currentSlidePosition = (currentSlidePosition + position + slides.length) % slides.length;
-    // change Slide calls carrousel and passes currentSlidePosition as argument to index parameter
+    // changeSlide calls carrousel and passes currentSlidePosition as argument to index parameter
     carrousel(currentSlidePosition);
 }
 
