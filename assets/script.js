@@ -1,71 +1,83 @@
 const slides = [
     {
         "image": "slide1.jpg",
-        "tagLine": "Impressions tous formats <span>en boutique et en ligne</span>"
+        "tagLine": "Impressions tous formats <span>en boutique et en ligne</span>",
     },
     {
         "image": "slide2.jpg",
-        "tagLine": "Tirages haute définition grand format <span>pour vos bureaux et events</span>"
+        "tagLine": "Tirages haute définition grand format <span>pour vos bureaux et events</span>",
     },
     {
         "image": "slide3.jpg",
-        "tagLine": "Grand choix de couleurs <span>de CMJN aux pantones</span>"
+        "tagLine": "Grand choix de couleurs <span>de CMJN aux pantones</span>",
     },
     {
         "image": "slide4.png",
-        "tagLine": "Autocollants <span>avec découpe laser sur mesure</span>"
+        "tagLine": "Autocollants <span>avec découpe laser sur mesure</span>",
     }
 ];
 
-// initial position of image/slide 
-let currentSlidePosition = 0;
+let currentSlidePosition = 0
 
-// carrousel function updates the displayed slide
-function carrousel(index) {
-    const sliderImage = document.querySelector('#banner .banner-img');
-    const sliderTagLine = document.querySelector('#banner p');
-    const sliderDots = document.querySelectorAll('.dots .dot');
+function slideshow(index) {
+    const sliderImage = document.querySelector(".banner-img")
+    const sliderTagLine = document.querySelector(".description")
 
-    sliderImage.src = `./assets/images/slideshow/` + slides[index].image;
-    sliderTagLine.innerHTML = slides[index].tagLine;
+sliderImage.src = "./assets/images/slideshow/" + slides[index].image
+sliderTagLine.innerHTML = slides[index].tagLine  
 
-// if i equals to index, it adds class dot_selected, else i removes the class dot_selected
-    for (let i = 0; i < sliderDots.length; i++) {
-        if (i === index) {
-            sliderDots[i].classList.add('dot_selected');
+selectedDots(index);
+}
+
+function addedDots () {
+    // selects the already existing div with class:"dots" in HTML
+    let dotsContainer = document.querySelector(".dots")
+    for (let i = 0; i < slides.length; i ++) {
+        // creates the new element span
+        let dot = document.createElement("span")
+        // adds created span as child to parent dotsContainer
+        dotsContainer.appendChild(dot)
+        // adds properties to .dot from css
+        dot.classList.add("dot")
+        // adds dot_selected to first slide which is on position 0
+        if (i === 0) {
+            dot.classList.add('dot_selected');
+        }
+        
+        dot.addEventListener("click", function () {
+            // i is the dot position clicked minus currentSlidePosition = number of pôsitions to move
+            moveSlide(i - currentSlidePosition);
+        });
+    }
+}
+// calls for addedDots
+addedDots()
+
+function selectedDots(selector) {
+    const dots = document.querySelectorAll('.dot');
+
+    for (let i = 0; i < dots.length; i++) {
+        if (i === selector) {
+            dots[i].classList.add('dot_selected');
         } else {
-            sliderDots[i].classList.remove('dot_selected');
+            dots[i].classList.remove('dot_selected');
         }
     }
 }
 
-function changeSlide(position) {
-    currentSlidePosition = (currentSlidePosition + position + slides.length) % slides.length;
-    // changeSlide calls carrousel and passes currentSlidePosition as argument to index parameter
-    carrousel(currentSlidePosition);
+
+function moveSlide(position) {
+    currentSlidePosition = (currentSlidePosition + position + slides.length) % slides.length
+    slideshow(currentSlidePosition)
 }
 
-// calls changeSlide function and goes 1 position back
-function previousSlide() {
-    changeSlide(-1);
-}
-
-// calls changeSlide function and goes 1 position next
 function nextSlide() {
-    changeSlide(1);
+    moveSlide(+1)
 }
 
-
-
-// looks for .arrow_left selector and goes to previous slide when clicked
-document.querySelector('.arrow_left').addEventListener('click', previousSlide);
-
-// looks for .arrow_right selector and goes to next slide when clicked
-document.querySelector('.arrow_right').addEventListener('click', nextSlide);
-
-const sliderDots = document.querySelectorAll('.dots .dot');
-for (let i = 0; i < sliderDots.length; i++) {
-    sliderDots[i].addEventListener('click', function() {
-        carrousel(i);
-    });
+function prevSlide() {
+    moveSlide(-1)
 }
+
+const arrowRight = document.querySelector(".arrow_right").addEventListener("click", nextSlide)
+const arrowLeft = document.querySelector(".arrow_left").addEventListener("click", prevSlide)
