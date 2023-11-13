@@ -51,11 +51,15 @@ function addedDots () {
         if (i === 0) {
             dot.classList.add('dot_selected');
         }
-
-        dot.addEventListener("click", function () {
+        // clickEvent function handles the click event for dot. It can also be anonymous without name because it is not used anywhere else
+        function clickEvent() {
             // i is the dot position clicked minus currentSlidePosition = number of pôsitions to move
             moveSlide(i - currentSlidePosition);
-        });
+        }
+        dot.addEventListener("click", clickEvent) 
+            
+            
+        
     }
 }
 // calls for addedDots to be displayed
