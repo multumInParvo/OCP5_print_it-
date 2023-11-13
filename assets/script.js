@@ -17,7 +17,7 @@ const slides = [
     }
 ];
 
-let currentSlidePosition = 0 // initial position
+let currentSlidePosition = 0
 
 function slideshow(index) {
     const sliderImage = document.querySelector(".banner-img")
@@ -30,21 +30,20 @@ function slideshow(index) {
 function addedDots() {
     let dotsContainer = document.querySelector(".dots")
     for (let i = 0; i < slides.length; i++) {
-        let dot = document.createElement("span") // creates the new element span
-        dotsContainer.appendChild(dot) // adds created span as child to parent dotsContainer
+        let dot = document.createElement("span")
+        dotsContainer.appendChild(dot)
         dot.classList.add("dot")
-        if (i === 0) { // adds dot_selected to first slide which is on position 0
+        if (i === 0) {
             dot.classList.add('dot_selected');
         }
-        function clickEvent() { // clickEvent function handles the click event for dot. It can also be anonymous without name because it is not used anywhere else
-            moveSlide(i - currentSlidePosition); // i is the dot position clicked minus currentSlidePosition = number of positions to move
-        }
-        dot.addEventListener("click", clickEvent)
+        dot.addEventListener("click", function() {
+            moveSlide(i - currentSlidePosition);
+        });
     }
 }
 addedDots()
 
-function selectedDots(selector) { // function with loop condition to add and remove dot_selected
+function selectedDots(selector) {
     const dots = document.querySelectorAll('.dot');
     for (let i = 0; i < dots.length; i++) {
         if (i === selector) {
@@ -55,16 +54,17 @@ function selectedDots(selector) { // function with loop condition to add and rem
     }
 }
 
-function moveSlide(position) { // calculates currentSlidePosition
+function moveSlide(position) {
     currentSlidePosition = (currentSlidePosition + position + slides.length) % slides.length
     slideshow(currentSlidePosition)
 }
-function nextSlide() {  // moves one position to right
+
+function nextSlide() {
     moveSlide(+1)
 }
-function prevSlide() { // moves one position to left
+function prevSlide() {
     moveSlide(-1)
 }
-// selects .arrow_right or .arrow_left from html and on click will activate function nextSlide or prevSlide to add or rest 1 position to function moveSlide
+
 const arrowRight = document.querySelector(".arrow_right").addEventListener("click", nextSlide)
 const arrowLeft = document.querySelector(".arrow_left").addEventListener("click", prevSlide)
